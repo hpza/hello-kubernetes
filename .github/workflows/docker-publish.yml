@@ -25,6 +25,8 @@ jobs:
   push:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    env:
+      SHA12: ${GITHUB_SHA::12}
 
     steps:
       - uses: actions/checkout@v2
@@ -54,7 +56,7 @@ jobs:
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
           # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
+          [ "$VERSION" == "master" ] && VERSION="$VERSION-$SHA12"
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
