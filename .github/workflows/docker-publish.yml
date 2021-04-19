@@ -37,14 +37,15 @@ jobs:
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
+      - name: show github ref
+        run:  echo "github.ref = ${{ github.ref }"
+        
       - name: Push image
         run: |
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-          echo "github.ref = ${{ github.ref }"
 
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
