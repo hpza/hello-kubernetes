@@ -30,9 +30,8 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: get shortsha
-        id: vars
         run: |
-          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo ::set-output name=sha_short::$(git rev-parse --short=10 ${{ github.sha }})
 
       - name: Build image
         run: |
